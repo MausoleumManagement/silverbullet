@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: silverbullet
+  namespace: silverbullet
+  annotations:
+    kube-vip.io/loadbalancerIPs: 192.168.14.15
+    cert-manager.io/cluster-issuer: "local-ca-issuer"
+spec:
+  ingressClassName: cilium
+  rules:
+  - host: silverbullet.nekropolis.irminsul
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: silverbullet
+            port:
+              number: 3000
+  - host: silverbullet.irminsul
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: silverbullet
+            port:
+              number: 3000
+  - host: sb.irminsul
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: silverbullet
+            port:
+              number: 3000
+  tls:
+  - hosts:
+    - sb.irminsul
+    - silverbullet.irminsul
+    - silverbullet.nekropolis.irminsul
+    secretName: silverbullet-certificate

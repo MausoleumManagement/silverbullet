@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: silverbullet
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - pvc.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - ingress.yaml
+  - externalsecrets.yaml
+
+images:
+- name: zefhemel/silverbullet
+  newTag: 2.10.0
+
+
+
+# due to lazyness, used this as a template
+# https://github.com/bnason/silverbullet-chart
+#helmCharts:
+#  - name: silverbullet
+#    repo: https://bnason.github.io/silverbullet-chart
+#    version: "0.4.2"
+#    releaseName: silverbullet
+#    namespace: silverbullet
+#    valuesFile: values.yaml

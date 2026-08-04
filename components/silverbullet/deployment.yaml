@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: silverbullet
+    app.kubernetes.io/name: silverbullet
+  name: silverbullet
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: silverbullet
+      app.kubernetes.io/name: silverbullet
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: silverbullet
+        app.kubernetes.io/name: silverbullet
+    spec:
+      containers:
+      - env: null
+        # TODO: use an image generator
+        image: zefhemel/silverbullet
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        name: silverbullet
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        resources: {}
+        securityContext: {}
+        volumeMounts:
+        - mountPath: /root/.ssh
+          name: ssh
+          readOnly: true
+        - mountPath: /space
+          name: data
+      securityContext: {}
+      serviceAccountName: silverbullet
+      volumes:
+      - name: ssh
+        secret:
+          defaultMode: 256
+          secretName: silverbullet-ssh
+      - name: data
+        persistentVolumeClaim:
+          claimName: silverbullet-data
