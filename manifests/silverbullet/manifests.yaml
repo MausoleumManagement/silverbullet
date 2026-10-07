@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
       - env: null
-        image: zefhemel/silverbullet:2.10.0
+        image: zefhemel/silverbullet:2.12.0@sha256:1b97ce0f7b5085c76e0e9363c88ed97673db62a3b0f78c7bb12868827fff8b37
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
